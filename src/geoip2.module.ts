@@ -13,7 +13,7 @@ export class GeoIP2Module {
 
     const geoIP2ConnectionProvider: Provider = {
       provide: getGeoIP2ConnectionToken(connection),
-      useFactory: async () => createGeoIP2Connection(options)
+      useFactory: async () => await createGeoIP2Connection(options)
     };
 
     return {
