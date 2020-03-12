@@ -25,6 +25,8 @@ npm install nestjs-geoip2 @maxmind/geoip2-node
 MAXMIND_LICENSE_KEY=license-key npm install geolite2
 ```
 
+### GeoIP2Module.forRoot(options, connection?)
+
 ```ts
 import { Module } from '@nestjs/common';
 import { GeoIP2Module } from 'nestjs-geoip2';
@@ -37,13 +39,39 @@ import * as geolite2 from 'geolite2';
       config: {
         // file: join(process.cwd(), 'GeoLite2-City.mmdb'),
         file: geolite2.paths.city,
-      }
+      },
     }),
   ],
   controllers: [AppController],
 })
 export class AppModule {}
 ```
+
+### GeoIP2Module.forRootAsync(options, connection?)
+
+```ts
+import { Module } from '@nestjs/common';
+import { GeoIP2Module } from 'nestjs-geoip2';
+import { AppController } from './app.controller';
+import * as geolite2 from 'geolite2';
+
+@Module({
+  imports: [
+    GeoIP2Module.forRootAsync({
+      useFactory: () => ({
+        config: {
+          // file: join(process.cwd(), 'GeoLite2-City.mmdb'),
+          file: geolite2.paths.city
+        },
+      }),
+    }),
+  ],
+  controllers: [AppController],
+})
+export class AppModule {}
+```
+
+### InjectGeoIP2(connection?)
 
 ```ts
 import { Controller, Get, } from '@nestjs/common';

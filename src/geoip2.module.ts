@@ -1,38 +1,22 @@
-import { Module, DynamicModule, Provider } from "@nestjs/common";
-import { GeoIP2ModuleOptions, GeoIP2ModuleAsyncOptions } from './geoip2.interfaces';
-import { createGeoIP2Connection, getGeoIP2ConnectionToken, getGeoIP2OptionsToken } from './geoip2.utils'
+import { DynamicModule, Module } from '@nestjs/common';
+import { GeoIP2CoreModule } from './geoip2.core-module';
+import { GeoIP2ModuleAsyncOptions, GeoIP2ModuleOptions } from './geoip2.interfaces';
 
 @Module({})
 export class GeoIP2Module {
-  static forRoot(options: GeoIP2ModuleOptions, connection?: string): DynamicModule {
-
-    const geoIP2ModuleOptions: Provider = {
-      provide: getGeoIP2OptionsToken(connection),
-      useValue: options,
-    };
-
-    const geoIP2ConnectionProvider: Provider = {
-      provide: getGeoIP2ConnectionToken(connection),
-      useFactory: async () => await createGeoIP2Connection(options)
-    };
-
+  public static forRoot(options: GeoIP2ModuleOptions, connection?: string): DynamicModule {
     return {
       module: GeoIP2Module,
-      providers: [
-        geoIP2ModuleOptions,
-        geoIP2ConnectionProvider,
-      ],
-      exports: [
-        geoIP2ModuleOptions,
-        geoIP2ConnectionProvider,
-      ],
+      imports: [GeoIP2CoreModule.forRoot(options, connection)],
+      exports: [GeoIP2CoreModule],
     };
   }
 
-  static forRootAsync(options: GeoIP2ModuleAsyncOptions, connection?: string): DynamicModule {
+  public static forRootAsync(options: GeoIP2ModuleAsyncOptions, connection?: string): DynamicModule {
     return {
       module: GeoIP2Module,
-      imports: [GeoIP2Module.forRootAsync(options, connection)],
+      imports: [GeoIP2CoreModule.forRootAsync(options, connection)],
+      exports: [GeoIP2CoreModule],
     };
   }
 }
