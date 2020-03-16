@@ -9,6 +9,7 @@
     "url": "https://github.com/svtslv/nestjs-geoip2"
   },
   "keywords": [
+    "nest",
     "nestjs",
     "geoip2",
     "maxmind"
