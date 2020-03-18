@@ -19,6 +19,12 @@ Integrates MaxMind GeoIP2 with Nest
 npm install nestjs-geoip2 @maxmind/geoip2-node
 ```
 
+You can also use the interactive CLI
+
+```sh
+npx nestjs-modules
+```
+
 ## Examples
 
 ```bash
